@@ -1,18 +1,60 @@
 // --- Hardcoded datasets ---
 const curated = [
-  "citylife", "urbanphotography", "streetphotography"
+  "streetsygram",
+  "sublimestreet",
+  "bcncollective",
+  "street_avengers",
+  "street_badass",
+  "urbanstreetphotography",
+  "streetfinder",
+  "streetclassics",
+  "PeraPhotoGallery",
+  "SPiCollective",
+  "outofthephotos",
+  "nycspc",
 ];
 
 const street = [
-  "streetstyle", "citystreets", "urbanlife", "streetphoto", "streetshot",
-  "cityscape", "cityvibes", "streetportrait", "urbanexploration", "everydaystreet",
-  "streetdreamsmag", "streets_storytelling", "fromstreetswithlove", "lensculturestreets",
-  "urbanstreets", "ig_street", "street_perfection", "streets_unseen", "urban_captures",
-  "city_hub", "street_color", "street_bw", "street_focus", "streetphoto_bw",
-  "urbanphotomag", "storyofthestreet", "urbanromantix", "citygrammers", "streetcollective",
-  "streetscenes"
+  "city_features",
+  "life_is_street",
+  "nonstopstreet",
+  "ourstreets",
+  "spicollective",
+  "storyofthestreet",
+  "street_deets",
+  "street_in_focus",
+  "street_ninjas",
+  "street_vision",
+  "streetclassics",
+  "streetgrammers",
+  "streetleaks",
+  "streetmobs",
+  "streetmoment",
+  "streetphotogallery",
+  "streetphotography",
+  "streetphotographyinternational",
+  "streets_storytelling",
+  "streetspremier",
+  "streetshared",
+  "timeless_streets",
 ];
 
+const abstract = [
+  "abstract",
+  "createcommune",
+];
+
+const cities = [
+  "citykillerz",
+];
+
+const nyc = [
+  "nyc",
+  "nycphotographer",
+  "wildnewyork",
+];
+
+// --- Utility ---
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -21,25 +63,29 @@ function shuffle(array) {
   return array;
 }
 
+// --- Generator Logic ---
 function generateHashtags() {
   const totalCount = 30;
-
-  // Always include curated hashtags
   const result = [...curated];
 
-  // Fill with random street hashtags
-  const needed = totalCount - curated.length;
+  const includeNYC = document.getElementById('nycCheckbox').checked;
+  const includeAbstract = document.getElementById('abstractCheckbox').checked;
+
+  if (includeNYC) result.push(...nyc);
+  if (includeAbstract) result.push(...abstract);
+
+  const needed = totalCount - result.length;
   const shuffledStreet = shuffle([...street]);
-  const selectedStreet = shuffledStreet.slice(0, needed);
 
-  // Combine & shuffle
-  const finalTags = shuffle([...result, ...selectedStreet]);
+  result.push(...shuffledStreet.slice(0, needed));
 
-  // Render with # and space
+  const finalTags = shuffle(result).slice(0, totalCount);
+
   document.getElementById('hashtags').textContent =
     finalTags.map(tag => `#${tag}`).join(' ');
 }
 
+// --- Copy Function ---
 function copyHashtags() {
   const text = document.getElementById('hashtags').textContent;
   navigator.clipboard.writeText(text).then(() => {
@@ -47,9 +93,11 @@ function copyHashtags() {
   });
 }
 
-// Event listeners
+// --- Event Listeners ---
 document.getElementById('regenBtn').addEventListener('click', generateHashtags);
 document.getElementById('copyBtn').addEventListener('click', copyHashtags);
+document.getElementById('nycCheckbox').addEventListener('change', generateHashtags);
+document.getElementById('abstractCheckbox').addEventListener('change', generateHashtags);
 
 // Generate on load
 generateHashtags();
