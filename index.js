@@ -51,6 +51,7 @@ const cities = [
 const nyc = [
   "nyc",
   "nycphotographer",
+  "streetsofnyc",
   "wildnewyork",
 ];
 
