@@ -12,6 +12,7 @@ const curated = [
   "SPiCollective",
   "outofthephotos",
   "nycspc",
+  "street_macadam",
 ];
 
 const street = [
